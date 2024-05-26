@@ -30,6 +30,16 @@ void PasswordManager::addOrUpdatePassword(const std::string website, const std::
     passwords[website] = password;
 }
 
+const std::string PasswordManager::getPassword(const std::string &website)
+{
+    if (!passwords.contains(website))
+    {
+        std::cout << "Password for this website does not exist" << std::endl;
+        return nullptr;
+    }
+    return passwords[website];
+}
+
 void PasswordManager::removePassword(const std::string website)
 {
     if (passwords.contains(website))

@@ -15,6 +15,7 @@ public:
     PasswordManager();
     PasswordManager(const std::string);
     void addOrUpdatePassword(const std::string, const std::string);
+    const std::string getPassword(const std::string&);
     void removePassword(const std::string);
     void saveAll();
     void loadAll();
