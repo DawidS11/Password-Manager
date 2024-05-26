@@ -8,28 +8,32 @@ class TestClass
 public:
     void compareMapAndFile(PasswordManager &passwordManager)
     {
-        std::unordered_map<std::string, std::string> filePasswords;
+        std::unordered_map<std::string, std::unordered_map<std::string, std::string>> filePasswords;
         std::ifstream f("data.txt");
-        std::string website, password;
+        std::string website, login, password;
         while (std::getline(f, website))
         {
-            if (std::getline(f, password))
-                filePasswords[website] = password;
+            if (std::getline(f, login))
+                if (std::getline(f, password))
+                    filePasswords[website] = std::unordered_map<std::string, std::string> {{login, password}};
         }
         f.close();
 
-        for (const auto &el : passwordManager.passwords)
+        for (const auto &website : passwordManager.passwords)
         {
-            //assert(filePasswords.contains(el.first) && ("filePassword does not contain ", el.first, "\n"));
-            assert(filePasswords[el.first] == el.second);
+            for (const auto &el : website.second)
+            {
+                assert(filePasswords.contains(website.first));
+                assert(filePasswords[website.first][el.first] == el.second);
+            }
         }
     }
 
     void saveData(PasswordManager &passwordManager)
     {
-        passwordManager.addOrUpdatePassword("web1", "pass1");
-        passwordManager.addOrUpdatePassword("web2", "pass2");
-        passwordManager.addOrUpdatePassword("web2", "pass3");
+        passwordManager.addOrUpdatePassword("web1", "log1", "pass1");
+        passwordManager.addOrUpdatePassword("web2", "log2", "pass2");
+        passwordManager.addOrUpdatePassword("web2", "log3", "pass3");
         passwordManager.saveAll();
         compareMapAndFile(passwordManager);
     }
@@ -37,11 +41,15 @@ public:
     void loadData(PasswordManager &passwordManager)
     {
         passwordManager.loadAll();
-
-        for (const auto &el : passwordManager.passwords)
+        std::cout << "Data loaded from file: " << std::endl;
+        for (const auto &website : passwordManager.passwords)
         {
-            std::cout << el.first << std::endl
-                      << el.second << std::endl;
+            for (const auto &el : website.second)
+            {
+                std::cout << website.first << std::endl
+                          << el.first << std::endl
+                          << el.second << std::endl;
+            }
         }
         compareMapAndFile(passwordManager);
     }
