@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall -g
+CFLAGS = -Wall -g -std=c++20
 
 password_manager: main.o PasswordManager.o
 	$(CC) $(CFLAGS) -o password_manager main.o PasswordManager.o
