@@ -1,5 +1,8 @@
 CC = g++
-CFLAGS = -Wall -g -std=c++20
+
+OPENSSL_PREFIX = /opt/homebrew/opt/openssl@3
+CFLAGS = -std=c++20 -Wall -Wextra $(CPPFLAGS)
+LDFLAGS = -L$(OPENSSL_PREFIX)/lib -lssl -lcrypto
 
 password_manager: main.o PasswordManager.o
 	$(CC) $(CFLAGS) -o password_manager main.o PasswordManager.o
