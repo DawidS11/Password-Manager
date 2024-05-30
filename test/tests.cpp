@@ -56,7 +56,7 @@ public:
 
     void runTests()
     {
-        PasswordManager passwordManager;
+        PasswordManager passwordManager("abc");
         saveData(passwordManager);
         loadData(passwordManager);
     }

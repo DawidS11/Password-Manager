@@ -5,10 +5,10 @@ CFLAGS = -std=c++20 -Wall -Wextra $(CPPFLAGS)
 LDFLAGS = -L$(OPENSSL_PREFIX)/lib -lssl -lcrypto
 
 password_manager: main.o PasswordManager.o
-	$(CC) $(CFLAGS) -o password_manager main.o PasswordManager.o
+	$(CC) $(CFLAGS) -o password_manager $(LDFLAGS) main.o PasswordManager.o
 
 tests: main.o tests.o PasswordManager.o
-	$(CC) $(CFLAGS) -o run_tests main.o tests.o PasswordManager.o
+	$(CC) $(CFLAGS) -o run_tests $(LDFLAGS) main.o tests.o PasswordManager.o
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) -c main.cpp
