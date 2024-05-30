@@ -107,6 +107,7 @@ void PasswordManager::removePassword(const std::string website, const std::strin
 void PasswordManager::saveAll()
 {
     std::ofstream f("data.txt");
+    f << passwordHash << "\n";
     for (const auto &website : passwords)
     {
         for (const auto &el : website.second)
@@ -122,6 +123,10 @@ void PasswordManager::saveAll()
 void PasswordManager::loadAll()
 {
     std::ifstream f("data.txt");
+    std::string hash;
+    if (std::getline(f, hash))
+        if (passwordHash != hash)
+            return;
     std::string website, login, password;
     while (std::getline(f, website))
     {

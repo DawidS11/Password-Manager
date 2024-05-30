@@ -10,6 +10,10 @@ public:
     {
         std::unordered_map<std::string, std::unordered_map<std::string, std::string>> filePasswords;
         std::ifstream f("data.txt");
+        std::string hash;
+        assert(std::getline(f, hash));
+        assert(passwordManager.passwordHash == hash);
+        
         std::string website, login, password;
         while (std::getline(f, website))
         {
